@@ -1,0 +1,7 @@
+micronaut:
+  server:
+    port: ${PORT:8080}
+netty:
+  default:
+    allocator:
+      max-order: 3

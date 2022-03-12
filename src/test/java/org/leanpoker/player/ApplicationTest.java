@@ -6,20 +6,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import io.micronaut.runtime.server.EmbeddedServer;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class JettyServerTest {
+@MicronautTest
+class ApplicationTest {
 
-    private static JettyServer jettyServer;
-
-    @BeforeAll
-    static void setup() throws Exception {
-        jettyServer = new JettyServer();
-        jettyServer.start(8088);
-    }
+    @Inject
+    EmbeddedServer server;
 
     @Test
     void getRequest() throws IOException, InterruptedException {
@@ -27,7 +26,7 @@ class JettyServerTest {
         HttpRequest request =
                 HttpRequest.newBuilder()
                         .GET()
-                        .uri(URI.create("http://localhost:8088/"))
+                        .uri(server.getURI())
                         .build();
 
         HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -42,7 +41,7 @@ class JettyServerTest {
         HttpRequest request =
                 HttpRequest.newBuilder()
                         .POST(HttpRequest.BodyPublishers.ofString(""))
-                        .uri(URI.create("http://localhost:8088/?action=version"))
+                        .uri(URI.create(server.getURI().toString() + "/?action=version"))
                         .build();
 
         HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
