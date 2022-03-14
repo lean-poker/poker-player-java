@@ -28,20 +28,12 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
 
-
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.22.0")
-    testImplementation("com.approvaltests:approvaltests:14.0.0")
-    testImplementation("org.mockito:mockito-core")
-    testImplementation("org.mockito:mockito-junit-jupiter")
 }
 
 graalvmNative.toolchainDetection = false
 
 micronaut {
     runtime("netty")
-    testRuntime("junit5")
     processing {
         incremental(true)
         annotations("org.leanpoker.player.*")

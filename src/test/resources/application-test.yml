@@ -1,7 +1,0 @@
-micronaut:
-  server:
-    port: ${random.port}
-netty:
-  default:
-    allocator:
-      max-order: 3

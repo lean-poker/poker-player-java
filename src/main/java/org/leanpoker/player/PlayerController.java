@@ -3,12 +3,13 @@ package org.leanpoker.player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import io.micronaut.http.annotation.QueryValue;
+import java.util.Map;
 
 @Controller()
 public class PlayerController {
@@ -21,18 +22,17 @@ public class PlayerController {
     }
 
     @Post(produces = MediaType.TEXT_PLAIN)
-    public String doPost(@QueryValue String action, @Nullable @QueryValue String game_state) throws JsonProcessingException {
-        if (action.equals("bet_request")) {
-            String gameState = game_state;
-
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public String doPost(@Body Map<String, String> body) throws JsonProcessingException {
+        String action = body.get("action");
+        String gameState = body.get("game_state");
+        if ("bet_request".equals(action)) {
             return String.valueOf(Player.betRequest(mapper.readTree(gameState)));
         }
-        if (action.equals("showdown")) {
-            String gameState = game_state;
-
+        if ("showdown".equals(action)) {
             Player.showdown(mapper.readTree(gameState));
         }
-        if (action.equals("version")) {
+        if ("version".equals(action)) {
             return Player.VERSION;
         }
         return "";
