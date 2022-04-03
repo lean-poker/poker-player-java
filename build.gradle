@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
-    id 'application'
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.2.2"
 }
 
 java {
@@ -20,21 +20,24 @@ application {
 }
 
 dependencies {
-    implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
-    implementation("com.google.code.gson:gson:2.9.0")
-    implementation("org.eclipse.jetty:jetty-server:11.0.6")
-    implementation("org.eclipse.jetty:jetty-servlet:11.0.6")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
 
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.22.0")
-    testImplementation("com.approvaltests:approvaltests:13.4.0")
-    testImplementation("org.mockito:mockito-core:4.3.1")
-    testImplementation("org.mockito:mockito-junit-jupiter:4.3.1")
 }
 
-test {
-    useJUnitPlatform()
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    processing {
+        incremental(true)
+        annotations("org.leanpoker.player.*")
+    }
 }
 
 task stage(dependsOn: [assemble])
