@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-exec ./gradlew --no-daemon run
+exec java -jar build/libs/poker-player-java-1.0-all.jar
+
