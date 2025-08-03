@@ -1,7 +1,7 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.2.0"
-    id("io.micronaut.aot") version "4.2.0"
+    id("com.gradleup.shadow") version "8.3.7"
+    id("io.micronaut.application") version "4.5.4"
+    id("io.micronaut.aot") version "4.5.4"
 }
 
 java {
@@ -27,12 +27,13 @@ java {
 
 dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
-    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("ch.qos.logback:logback-classic:1.5.18")
 }
 
 graalvmNative.toolchainDetection = false
 
 micronaut {
+    version = "4.9.2"
     runtime("netty")
     testRuntime("junit5")
     processing {
